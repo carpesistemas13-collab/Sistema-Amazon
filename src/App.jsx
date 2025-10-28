@@ -14,13 +14,16 @@ function App() {
     numero_lote: '',
     estado: 'En inventario',
     precio_final: 0,
+    codigo_identificacion: '', // Nuevo campo
   });
-  const [showForm, setShowForm] = useState(false); // Nuevo estado para controlar la visibilidad del formulario
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     getLenses();
     getMarcas();
   }, []);
+
+  // console.log('Marcas:', marcas); // Para depurar el problema de las marcas
 
   const getLenses = async () => {
     const { data, error } = await supabase.from('lentes').select('*');
@@ -180,6 +183,16 @@ function App() {
               <option value="Publicado">Publicado</option>
               <option value="Vendido">Vendido</option>
             </select>
+          </div>
+          <div> {/* Nuevo campo para codigo_identificacion */}
+            <label>Código de Identificación:</label>
+            <input
+              type="text"
+              name="codigo_identificacion"
+              value={newLens.codigo_identificacion}
+              onChange={handleInputChange}
+              required
+            />
           </div>
           <button type="submit">Añadir Lente</button>
         </form>
