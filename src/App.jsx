@@ -11,10 +11,10 @@ function App() {
     precio_compra: '',
     descuento: '',
     stock: '',
-    numero_lote: '',
+    numero_de_lote: '', // Corregido a numero_de_lote
     estado: 'En inventario',
     precio_final: 0,
-    codigo_identificacion: '', // Nuevo campo
+    codigo_identificacion: '',
   });
   const [showForm, setShowForm] = useState(false);
 
@@ -68,21 +68,21 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Datos a enviar:', newLens); // Log para depuración
+    // console.log('Datos a enviar:', newLens); // Log para depuración
 
     const { data, error } = await supabase.from('lentes').insert([newLens]);
 
     if (error) {
       console.error('Error al añadir lente:', error); // Log de error
     } else {
-      console.log('Lente añadido con éxito:', data); // Log de éxito
+      // console.log('Lente añadido con éxito:', data); // Log de éxito
       setNewLens({
         modelo: '',
         marca_id: '',
         precio_compra: '',
         descuento: '',
         stock: '',
-        numero_lote: '',
+        numero_de_lote: '', // Corregido a numero_de_lote
         estado: 'En inventario',
         precio_final: 0,
         codigo_identificacion: '',
@@ -171,9 +171,10 @@ function App() {
             <label>Número de Lote:</label>
             <input
               type="text"
-              name="numero_lote"
-              value={newLens.numero_lote}
+              name="numero_de_lote" // Corregido a numero_de_lote
+              value={newLens.numero_de_lote} // Corregido a numero_de_lote
               onChange={handleInputChange}
+              required
             />
           </div>
           <div>
