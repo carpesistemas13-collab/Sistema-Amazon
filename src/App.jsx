@@ -8,9 +8,8 @@ function App() {
   const [newLens, setNewLens] = useState({
     modelo: '',
     marca_id: '',
-    precio: '', // Cambiado de precio_compra a precio
+    precio: '',
     descuento: '',
-    existencias: '', // Cambiado de stock a existencias
     numero_de_lote: '',
     estado: 'En inventario',
     precio_final: 0,
@@ -77,9 +76,8 @@ function App() {
       setNewLens({
         modelo: '',
         marca_id: '',
-        precio: '', // Cambiado de precio_compra a precio
+        precio: '',
         descuento: '',
-        existencias: '', // Cambiado de stock a existencias
         numero_de_lote: '',
         estado: 'En inventario',
         precio_final: 0,
@@ -131,24 +129,14 @@ function App() {
             <label>Precio Compra:</label>
             <input
               type="number"
-              name="precio" // Cambiado de precio_compra a precio
-              value={newLens.precio} // Cambiado de precio_compra a precio
+              name="precio"
+              value={newLens.precio}
               onChange={handleInputChange}
               required
             />
           </div>
           <div>
-            <label>Existencias:</label>
-            <input
-              type="number"
-              name="existencias" // Cambiado de stock a existencias
-              value={newLens.existencias} // Cambiado de stock a existencias
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Descuento (%):</label>
+            <label>Descuento:</label>
             <input
               type="number"
               name="descuento"
@@ -157,30 +145,11 @@ function App() {
             />
           </div>
           <div>
-            <label>Precio Final:</label>
-            <input
-              type="text"
-              name="precio_final"
-              value={newLens.precio_final.toFixed(2)}
-              readOnly
-            />
-          </div>
-          <div>
-            <label>Stock:</label>
-            <input
-              type="number"
-              name="stock"
-              value={newLens.stock}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div>
             <label>Número de Lote:</label>
             <input
               type="text"
-              name="numero_de_lote" // Corregido a numero_de_lote
-              value={newLens.numero_de_lote} // Corregido a numero_de_lote
+              name="numero_de_lote"
+              value={newLens.numero_de_lote}
               onChange={handleInputChange}
               required
             />
