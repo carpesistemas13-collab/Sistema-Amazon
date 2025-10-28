@@ -68,11 +68,14 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Datos a enviar:', newLens); // Log para depuración
+
     const { data, error } = await supabase.from('lentes').insert([newLens]);
+
     if (error) {
-      console.error('Error adding new lens:', error);
+      console.error('Error al añadir lente:', error); // Log de error
     } else {
-      console.log('Lens added:', data);
+      console.log('Lente añadido con éxito:', data); // Log de éxito
       setNewLens({
         modelo: '',
         marca_id: '',
@@ -82,9 +85,10 @@ function App() {
         numero_lote: '',
         estado: 'En inventario',
         precio_final: 0,
+        codigo_identificacion: '',
       });
-      getLenses(); // Refresh the list
-      setShowForm(false); // Ocultar el formulario después de enviar
+      getLenses();
+      setShowForm(false);
     }
   };
 
