@@ -1,32 +1,16 @@
 {
   "name": "sistema-amazon",
-  "version": "1.0.0",
-  "description": "Sistema de inventario de lentes con backend y frontend unificados.",
-  "main": "backend/src/server.js",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "start": "node backend/src/server.js",
-    "dev:backend": "nodemon backend/src/server.js",
-    "dev:frontend": "vite backend/public",
-    "build:frontend": "vite build backend/public",
-    "lint:frontend": "eslint backend/public",
-    "preview:frontend": "vite preview backend/public",
-    "install:all": "npm install --prefix backend && npm install --prefix frontend",
-    "dev:all": "npm run build:frontend && npm run dev:backend"
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@ant-design/icons": "^6.1.0",
     "@supabase/supabase-js": "^2.76.1",
-    "antd": "^5.27.6",
-    "axios": "^1.13.0",
-    "body-parser": "^2.2.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.6.1",
-    "express": "^4.21.2",
-    "mongoose": "^8.19.2",
-    "pdfkit": "^0.15.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
@@ -39,7 +23,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
-    "nodemon": "^3.1.0",
     "vite": "^7.1.7"
   }
 }
