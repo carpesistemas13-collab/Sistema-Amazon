@@ -7,6 +7,14 @@
       "config": {
         "includeFiles": ["backend/dist/**", "backend/src/**", "backend/.env.example"]
       }
+    },
+    {
+      "src": "backend/public/index.html",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "backend/public/dist"
+      },
+      "buildCommand": "npm run build:frontend"
     }
   ],
   "routes": [
