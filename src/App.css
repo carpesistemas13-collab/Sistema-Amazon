@@ -45,20 +45,20 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
   padding: 10px;
-  background-color: #eef2f6; /* Fondo más suave */
+  background-color: #f0f4f8; /* Fondo mate muy claro */
   min-height: 100vh;
-  color: #3c4858; /* Texto principal más suave */
+  color: #4a5568; /* Texto principal gris oscuro mate */
 }
 
 h1 {
-  color: #2c3e50; /* Títulos más oscuros pero no negros */
+  color: #2d3748; /* Títulos más oscuros mate */
   margin-bottom: 20px;
   font-size: 2em;
   font-weight: 600;
 }
 
 h2 {
-  color: #5a6a7a; /* Subtítulos más suaves */
+  color: #718096; /* Subtítulos gris mate */
   margin-top: 25px;
   margin-bottom: 10px;
   font-size: 1.4em;
@@ -69,11 +69,11 @@ form {
   background-color: #ffffff;
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  max-width: 900px; /* Ajustar el ancho máximo para 3 columnas */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03); /* Sombra aún más sutil */
+  max-width: 900px;
   margin: 20px auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Volver a 3 columnas */
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
@@ -86,7 +86,7 @@ form div {
 form label {
   margin-bottom: 3px;
   font-weight: 500;
-  color: #5a6a7a; /* Etiquetas más suaves */
+  color: #718096; /* Etiquetas gris mate */
   font-size: 0.85em;
 }
 
@@ -94,7 +94,7 @@ form input[type="text"],
 form input[type="number"],
 form select {
   padding: 8px;
-  border: 1px solid #dbe2ed; /* Borde más suave */
+  border: 1px solid #e2e8f0; /* Borde gris claro mate */
   border-radius: 4px;
   font-size: 0.9em;
   width: 100%;
@@ -105,13 +105,13 @@ form select {
 form input[type="text"]:focus,
 form input[type="number"]:focus,
 form select:focus {
-  border-color: #66aaff; /* Azul de enfoque más suave */
+  border-color: #9f7aea; /* Púrpura suave para enfoque */
   outline: none;
-  box-shadow: 0 0 0 0.1rem rgba(102, 170, 255, 0.2); /* Sombra de enfoque más suave */
+  box-shadow: 0 0 0 0.1rem rgba(159, 122, 234, 0.2); /* Sombra de enfoque púrpura suave */
 }
 
 form button {
-  background-color: #5cb85c; /* Verde más amigable */
+  background-color: #667eea; /* Azul mate para el botón */
   color: white;
   padding: 8px 15px;
   border: none;
@@ -125,7 +125,7 @@ form button {
 }
 
 form button:hover {
-  background-color: #4cae4c; /* Verde de hover más suave */
+  background-color: #5a67d8; /* Azul mate más oscuro para hover */
   transform: translateY(-1px);
 }
 
@@ -142,23 +142,23 @@ ul {
 
 li {
   background-color: #ffffff;
-  border: 1px solid #e0e6ed; /* Borde de lista más suave */
+  border: 1px solid #e2e8f0; /* Borde gris claro mate */
   margin-bottom: 8px;
   padding: 12px;
   border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03); /* Sombra de lista más sutil */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02); /* Sombra de lista aún más sutil */
   text-align: left;
-  color: #3c4858; /* Texto de lista más suave */
+  color: #4a5568; /* Texto de lista gris oscuro mate */
   transition: transform 0.2s ease-in-out;
 }
 
 li:hover {
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Sombra de hover de lista más sutil */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); /* Sombra de hover de lista más sutil */
 }
 
 .toggle-form-button {
-  background-color: #007bff; /* Un azul más estándar para el botón de alternar */
+  background-color: #4299e1; /* Azul mate para el botón de alternar */
   color: white;
   padding: 10px 20px;
   border: none;
@@ -166,10 +166,10 @@ li:hover {
   font-size: 1em;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
-  margin-bottom: 20px; /* Espacio debajo del botón */
+  margin-bottom: 20px;
 }
 
 .toggle-form-button:hover {
-  background-color: #0056b3;
+  background-color: #3182ce; /* Azul mate más oscuro para hover */
   transform: translateY(-1px);
 }
