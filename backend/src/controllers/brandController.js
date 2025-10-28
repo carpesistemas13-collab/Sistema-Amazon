@@ -3,7 +3,7 @@ const Brand = require('../models/Brand');
 // Obtener todas las marcas
 exports.getAllBrands = async (req, res) => {
   try {
-    const brands = await Brand.find({ activo: true });
+    const brands = await Brand.findAll({ activo: true });
     res.status(200).json({
       success: true,
       count: brands.length,
@@ -64,13 +64,9 @@ exports.createBrand = async (req, res) => {
 // Actualizar una marca
 exports.updateBrand = async (req, res) => {
   try {
-    const brand = await Brand.findByIdAndUpdate(
+    const brand = await Brand.update(
       req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true
-      }
+      req.body
     );
 
     if (!brand) {
@@ -96,13 +92,9 @@ exports.updateBrand = async (req, res) => {
 // Eliminar una marca (desactivar)
 exports.deleteBrand = async (req, res) => {
   try {
-    const brand = await Brand.findByIdAndUpdate(
+    const brand = await Brand.update(
       req.params.id,
-      { activo: false },
-      {
-        new: true,
-        runValidators: true
-      }
+      { activo: false }
     );
 
     if (!brand) {

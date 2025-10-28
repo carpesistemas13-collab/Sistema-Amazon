@@ -6,15 +6,14 @@ const fs = require('fs');
 exports.getAllLenses = async (req, res) => {
   try {
     const { modelo, marca, numeroLote, estado } = req.query;
-    let query = {};
+    const filters = {};
 
-    // Filtros
-    if (modelo) query.modelo = { $regex: modelo, $options: 'i' };
-    if (marca) query.marca = marca;
-    if (numeroLote) query.numeroLote = numeroLote;
-    if (estado) query.estado = estado;
+    if (modelo) filters.search = modelo; // Asumiendo que 'modelo' se mapea a 'name' en Supabase para búsqueda
+    if (marca) filters.brand = marca;
+    if (numeroLote) filters.numeroLote = numeroLote;
+    if (estado) filters.estado = estado;
 
-    const lenses = await Lens.find(query).populate('marca');
+    const lenses = await Lens.findAll(filters);
     res.status(200).json({
       success: true,
       count: lenses.length,
@@ -32,7 +31,7 @@ exports.getAllLenses = async (req, res) => {
 // Obtener un lente por ID
 exports.getLensById = async (req, res) => {
   try {
-    const lens = await Lens.findById(req.params.id).populate('marca');
+    const lens = await Lens.findById(req.params.id);
     
     if (!lens) {
       return res.status(404).json({
@@ -75,14 +74,10 @@ exports.createLens = async (req, res) => {
 // Actualizar un lente
 exports.updateLens = async (req, res) => {
   try {
-    const lens = await Lens.findByIdAndUpdate(
+    const lens = await Lens.update(
       req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true
-      }
-    ).populate('marca');
+      req.body
+    );
 
     if (!lens) {
       return res.status(404).json({
@@ -107,7 +102,7 @@ exports.updateLens = async (req, res) => {
 // Eliminar un lente
 exports.deleteLens = async (req, res) => {
   try {
-    const lens = await Lens.findByIdAndDelete(req.params.id);
+    const lens = await Lens.delete(req.params.id);
 
     if (!lens) {
       return res.status(404).json({
@@ -150,16 +145,11 @@ exports.sellLens = async (req, res) => {
     }
 
     // Actualizar existencias y estado
-    lens.existencias -= 1;
-    if (lens.existencias === 0) {
-      lens.estado = 'Vendido';
-    }
-
-    await lens.save();
+    const updatedLens = await Lens.updateStock(req.params.id, -1);
 
     res.status(200).json({
       success: true,
-      data: lens
+      data: updatedLens
     });
   } catch (error) {
     res.status(500).json({
@@ -176,7 +166,7 @@ exports.generatePdfReport = async (req, res) => {
     const { numeroLote } = req.params;
     
     // Buscar lentes por número de lote
-    const lenses = await Lens.find({ numeroLote }).populate('marca');
+    const lenses = await Lens.findAll({ numeroLote });
     
     if (lenses.length === 0) {
       return res.status(404).json({
