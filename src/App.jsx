@@ -8,10 +8,10 @@ function App() {
   const [newLens, setNewLens] = useState({
     modelo: '',
     marca_id: '',
-    precio_compra: '',
+    precio: '', // Cambiado de precio_compra a precio
     descuento: '',
-    stock: '',
-    numero_de_lote: '', // Corregido a numero_de_lote
+    existencias: '', // Cambiado de stock a existencias
+    numero_de_lote: '',
     estado: 'En inventario',
     precio_final: 0,
     codigo_identificacion: '',
@@ -68,21 +68,19 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log('Datos a enviar:', newLens); // Log para depuración
 
     const { data, error } = await supabase.from('lentes').insert([newLens]);
 
     if (error) {
-      console.error('Error al añadir lente:', error); // Log de error
+      console.error('Error al añadir lente:', error);
     } else {
-      // console.log('Lente añadido con éxito:', data); // Log de éxito
       setNewLens({
         modelo: '',
         marca_id: '',
-        precio_compra: '',
+        precio: '', // Cambiado de precio_compra a precio
         descuento: '',
-        stock: '',
-        numero_de_lote: '', // Corregido a numero_de_lote
+        existencias: '', // Cambiado de stock a existencias
+        numero_de_lote: '',
         estado: 'En inventario',
         precio_final: 0,
         codigo_identificacion: '',
@@ -133,8 +131,18 @@ function App() {
             <label>Precio Compra:</label>
             <input
               type="number"
-              name="precio_compra"
-              value={newLens.precio_compra}
+              name="precio" // Cambiado de precio_compra a precio
+              value={newLens.precio} // Cambiado de precio_compra a precio
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div>
+            <label>Existencias:</label>
+            <input
+              type="number"
+              name="existencias" // Cambiado de stock a existencias
+              value={newLens.existencias} // Cambiado de stock a existencias
               onChange={handleInputChange}
               required
             />
