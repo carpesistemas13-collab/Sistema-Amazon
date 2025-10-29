@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
 import './App.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [lenses, setLenses] = useState([]);
@@ -23,6 +25,16 @@ function App() {
   const [editingLensId, setEditingLensId] = useState(null); // Nuevo estado para el ID del lente en edición
   const [filterLotNumber, setFilterLotNumber] = useState(''); // Nuevo estado para el filtro de número de lote
   const [filterModel, setFilterModel] = useState(''); // Nuevo estado para el filtro de modelo
+  const [notification, setNotification] = useState(null); // { message: '', type: 'success' | 'error' }
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [lensToDeleteId, setLensToDeleteId] = useState(null);
+
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000); // Ocultar después de 3 segundos
+  };
 
   useEffect(() => {
     getLenses();
@@ -86,6 +98,11 @@ function App() {
     if (editingLensId) {
       await handleUpdate();
     } else {
+      // Validación de campos obligatorios
+      if (!newLens.numero_de_lote || !newLens.modelo || !newLens.precio || !newLens.existencias || !newLens.codigo_identificacion) {
+        showNotification('Por favor, completa todos los campos obligatorios.', 'error');
+        return;
+      }
       // Excluir precio_final al insertar, ya que es una columna generada en Supabase
       const { precio_final, ...lensToInsert } = newLens;
 
@@ -93,6 +110,7 @@ function App() {
 
       if (error) {
         console.error('Error al añadir lente:', error);
+        showNotification('Error al añadir lente.', 'error');
       } else {
         setNewLens({
           modelo: '',
@@ -106,6 +124,7 @@ function App() {
         });
         getLenses();
         setShowForm(false);
+        showNotification('Lente añadido exitosamente.', 'success');
       }
     }
   };
@@ -125,6 +144,12 @@ function App() {
   };
 
   const handleUpdate = async () => {
+    // Validación de campos obligatorios
+    if (!newLens.numero_de_lote || !newLens.modelo || !newLens.precio || !newLens.existencias || !newLens.codigo_identificacion) {
+      showNotification('Por favor, completa todos los campos obligatorios.', 'error');
+      return;
+    }
+
     const { precio_final, ...lensToUpdate } = newLens;
     const { error } = await supabase
       .from('lentes')
@@ -133,22 +158,39 @@ function App() {
 
     if (error) {
       console.error('Error al actualizar lente:', error);
+      showNotification('Error al actualizar lente.', 'error');
     } else {
       getLenses();
       setShowForm(false);
       setEditingLensId(null);
+      showNotification('Lente actualizado exitosamente.', 'success');
     }
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm('¿Estás seguro de que quieres eliminar este lente? Esta acción no se puede deshacer.')) {
-      const { error } = await supabase.from('lentes').delete().eq('id', id);
+  const handleDelete = (id) => {
+    setLensToDeleteId(id);
+    setShowConfirmModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (lensToDeleteId) {
+      const { error } = await supabase.from('lentes').delete().eq('id', lensToDeleteId);
+
       if (error) {
         console.error('Error al eliminar lente:', error);
+        showNotification('Error al eliminar lente.', 'error');
       } else {
         getLenses();
+        showNotification('Lente eliminado exitosamente.', 'success');
       }
+      setLensToDeleteId(null);
+      setShowConfirmModal(false);
     }
+  };
+
+  const cancelDelete = () => {
+    setLensToDeleteId(null);
+    setShowConfirmModal(false);
   };
 
   const handleAddMarca = async () => {
@@ -177,7 +219,26 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Inventario de Lentes</h1>
+      {notification && (
+        <div className={`notification ${notification.type}`}>
+          {notification.message}
+        </div>
+      )}
+
+      {showConfirmModal && (
+        <div className="confirm-modal-overlay">
+          <div className="confirm-modal">
+            <h2>Confirmar Eliminación</h2>
+            <p>¿Estás seguro de que quieres eliminar este lente? Esta acción no se puede deshacer.</p>
+            <div className="confirm-modal-buttons">
+              <button onClick={confirmDelete} className="confirm-button">Confirmar</button>
+              <button onClick={cancelDelete} className="cancel-button">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <h1>Gestión de Lentes</h1>
 
       <button onClick={() => setShowMarcaForm(!showMarcaForm)} className="toggle-form-button">
         {showMarcaForm ? 'Ocultar Formulario de Marca' : 'Añadir Nueva Marca'}
@@ -355,8 +416,8 @@ function App() {
                 <td data-label="Estado">{lens.estado}</td>
                 <td data-label="Código Identificación">{lens.codigo_identificacion}</td>
                 <td>
-                  <button onClick={() => handleDelete(lens.id)}>Eliminar</button>
-                  <button onClick={() => handleEditClick(lens)}>Editar</button>
+                  <button onClick={() => handleDelete(lens.id)}><FontAwesomeIcon icon={faTrash} /> Eliminar</button>
+                  <button onClick={() => handleEditClick(lens)}><FontAwesomeIcon icon={faEdit} /> Editar</button>
                 </td>
               </tr>
             ))}
