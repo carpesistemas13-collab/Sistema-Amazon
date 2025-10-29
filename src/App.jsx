@@ -121,6 +121,17 @@ function App() {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (window.confirm('¿Estás seguro de que quieres eliminar este lente? Esta acción no se puede deshacer.')) {
+      const { error } = await supabase.from('lentes').delete().eq('id', id);
+      if (error) {
+        console.error('Error al eliminar lente:', error);
+      } else {
+        getLenses();
+      }
+    }
+  };
+
   const calculatePrecioFinal = (precio, descuento) => {
     const pc = parseFloat(precio);
     const desc = parseFloat(descuento);
