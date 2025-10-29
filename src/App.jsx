@@ -21,6 +21,22 @@ function App() {
     getMarcas();
   }, []);
 
+  useEffect(() => {
+    if (showForm) {
+      const initialNewLensState = {
+        modelo: '',
+        marca_id: '',
+        precio: '',
+        descuento: '',
+        numero_de_lote: '',
+        estado: 'En inventario',
+        codigo_identificacion: '',
+      };
+      setNewLens(initialNewLensState);
+      console.log('Formulario abierto, newLens reiniciado a:', initialNewLensState); // DEBUG
+    }
+  }, [showForm]);
+
   // console.log('Marcas:', marcas); // Para depurar el problema de las marcas
 
   const getLenses = async () => {
@@ -28,6 +44,7 @@ function App() {
     if (error) {
       console.error('Error fetching lenses:', error);
     } else {
+      // console.log('Datos de lentes recuperados de Supabase:', data); // DEBUG
       setLenses(data);
     }
   };
@@ -41,32 +58,10 @@ function App() {
     }
   };
 
-  const calculatePrecioFinal = (precio_compra, descuento) => {
-    const pc = parseFloat(precio_compra);
-    const desc = parseFloat(descuento);
-    if (!isNaN(pc) && !isNaN(desc)) {
-      return pc - (pc * desc) / 100;
-    }
-    return 0;
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewLens((prev) => {
-      const updatedLens = { ...prev, [name]: value };
-      if (name === 'precio_compra' || name === 'descuento') {
-        updatedLens.precio_final = calculatePrecioFinal(
-          updatedLens.precio_compra,
-          updatedLens.descuento
-        );
-      }
-      return updatedLens;
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Excluir precio_final al insertar, ya que es una columna generada en Supabase
     const { precio_final, ...lensToInsert } = newLens;
 
     const { data, error } = await supabase.from('lentes').insert([lensToInsert]);
@@ -86,6 +81,31 @@ function App() {
       getLenses();
       setShowForm(false);
     }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewLens((prev) => {
+      let updatedValue = value;
+      const updatedLens = { ...prev, [name]: updatedValue };
+      if (name === 'precio' || name === 'descuento') {
+        updatedLens.precio_final = calculatePrecioFinal(
+          updatedLens.precio,
+          updatedLens.descuento
+        );
+      }
+      return updatedLens;
+    });
+  };
+
+  const calculatePrecioFinal = (precio, descuento) => {
+    const pc = parseFloat(precio);
+    const desc = parseFloat(descuento);
+    if (!isNaN(pc) && !isNaN(desc)) {
+      const finalPrice = pc - (pc * (desc / 100));
+      return finalPrice;
+    }
+    return 0;
   };
 
   return (
@@ -190,13 +210,38 @@ function App() {
       )}
 
       <h2>Lentes Disponibles</h2>
-      <ul>
-        {lenses.map((lens) => (
-          <li key={lens.id}>
-            {lens.modelo} - {marcas.find((m) => m.id === lens.marca_id)?.nombre || 'N/A'} - Lote: {lens.numero_lote} - Estado: {lens.estado} - Precio Final: ${lens.precio_final.toFixed(2)}
-          </li>
-        ))}
-      </ul>
+      <div className="lenses-table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Modelo</th>
+              <th>Marca</th>
+              <th>Precio</th>
+              <th>Descuento</th>
+              <th>Precio Final</th>
+              <th>Existencias</th>
+              <th>Número de Lote</th>
+              <th>Estado</th>
+              <th>Código Identificación</th>
+            </tr>
+          </thead>
+          <tbody>
+            {lenses.map((lens) => (
+              <tr key={lens.id}>
+                <td data-label="Modelo">{lens.modelo}</td>
+                <td data-label="Marca">{marcas.find((m) => m.id === lens.marca_id)?.nombre || 'N/A'}</td>
+                <td data-label="Precio">${lens.precio.toFixed(2)}</td>
+                <td data-label="Descuento">{lens.descuento}%</td>
+                <td data-label="Precio Final">${lens.precio_final.toFixed(2)}</td>
+                <td data-label="Existencias">{lens.existencias}</td>
+                <td data-label="Número de Lote">{lens.numero_de_lote}</td>
+                <td data-label="Estado">{lens.estado}</td>
+                <td data-label="Código Identificación">{lens.codigo_identificacion}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
