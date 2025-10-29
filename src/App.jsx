@@ -10,18 +10,28 @@ function App() {
     marca_id: '',
     precio: '',
     descuento: '',
+    existencias: '',
     numero_de_lote: '',
-    estado: 'En inventario',
+    estado: '',
     codigo_identificacion: '',
-    existencias: 0, // Nuevo campo para existencias
   });
+
+  const [newMarca, setNewMarca] = useState('');
+  const [showMarcaForm, setShowMarcaForm] = useState(false);
+
   const [showForm, setShowForm] = useState(false);
   const [editingLensId, setEditingLensId] = useState(null); // Nuevo estado para el ID del lente en edición
+  const [filterLotNumber, setFilterLotNumber] = useState(''); // Nuevo estado para el filtro de número de lote
+  const [filterModel, setFilterModel] = useState(''); // Nuevo estado para el filtro de modelo
 
   useEffect(() => {
     getLenses();
     getMarcas();
   }, []);
+
+  useEffect(() => {
+    getLenses(filterLotNumber, filterModel);
+  }, [filterLotNumber, filterModel]);
 
   useEffect(() => {
     if (showForm && !editingLensId) {
@@ -42,12 +52,21 @@ function App() {
 
   // console.log('Marcas:', marcas); // Para depurar el problema de las marcas
 
-  const getLenses = async () => {
-    const { data, error } = await supabase.from('lentes').select('*');
+  const getLenses = async (lotNumber = '', model = '') => {
+    let query = supabase.from('lentes').select('*');
+
+    if (lotNumber) {
+      query = query.ilike('numero_de_lote', `%${lotNumber}%`);
+    }
+
+    if (model) {
+      query = query.ilike('modelo', `%${model}%`);
+    }
+
+    const { data, error } = await query;
     if (error) {
       console.error('Error fetching lenses:', error);
     } else {
-      // console.log('Datos de lentes recuperados de Supabase:', data); // DEBUG
       setLenses(data);
     }
   };
@@ -132,6 +151,20 @@ function App() {
     }
   };
 
+  const handleAddMarca = async () => {
+    if (!newMarca.trim()) {
+      alert('El nombre de la marca no puede estar vacío.');
+      return;
+    }
+    const { data, error } = await supabase.from('marcas').insert([{ nombre: newMarca }]);
+    if (error) {
+      console.error('Error al añadir marca:', error);
+    } else {
+      setNewMarca('');
+      getMarcas();
+    }
+  };
+
   const calculatePrecioFinal = (precio, descuento) => {
     const pc = parseFloat(precio);
     const desc = parseFloat(descuento);
@@ -145,6 +178,23 @@ function App() {
   return (
     <div className="App">
       <h1>Inventario de Lentes</h1>
+
+      <button onClick={() => setShowMarcaForm(!showMarcaForm)} className="toggle-form-button">
+        {showMarcaForm ? 'Ocultar Formulario de Marca' : 'Añadir Nueva Marca'}
+      </button>
+
+      {showMarcaForm && (
+        <div className="marca-form-container">
+          <h2>Añadir Nueva Marca</h2>
+          <input
+            type="text"
+            placeholder="Nombre de la Marca"
+            value={newMarca}
+            onChange={(e) => setNewMarca(e.target.value)}
+          />
+          <button onClick={handleAddMarca}>Añadir Marca</button>
+        </div>
+      )}
 
       <button onClick={() => setShowForm(!showForm)} className="toggle-form-button">
         {showForm ? 'Ocultar Formulario' : 'Añadir Nuevo Lente'}
@@ -254,6 +304,28 @@ function App() {
       )}
 
       <h2>Lentes Disponibles</h2>
+      <div className="filters-wrapper">
+        <div className="filter-container">
+          <label htmlFor="lotFilter">Filtrar por Número de Lote:</label>
+          <input
+            type="text"
+            id="lotFilter"
+            value={filterLotNumber}
+            onChange={(e) => setFilterLotNumber(e.target.value)}
+            placeholder="Introduce número de lote"
+          />
+        </div>
+        <div className="filter-container">
+          <label htmlFor="modelFilter">Filtrar por Modelo:</label>
+          <input
+            type="text"
+            id="modelFilter"
+            value={filterModel}
+            onChange={(e) => setFilterModel(e.target.value)}
+            placeholder="Introduce modelo"
+          />
+        </div>
+      </div>
       <div className="lenses-table-container">
         <table>
           <thead>

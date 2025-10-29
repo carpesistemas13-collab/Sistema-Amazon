@@ -1,8 +1,22 @@
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #e0f2f7; /* Un azul muy claro y fresco para el fondo */
+  font-family: 'Inter', sans-serif; /* Una fuente moderna */
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  width: 100%; /* Asegura que #root ocupe todo el ancho disponible */
+  min-height: 100vh; /* Asegura que #root tenga al menos la altura de la ventana */
+  display: flex;
+  flex-direction: column;
 }
 
 .logo {
@@ -42,39 +56,44 @@
 }
 
 .App {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', sans-serif; /* Consistencia con la fuente del body */
   text-align: center;
-  padding: 10px;
-  background-color: #f0f4f8; /* Fondo mate muy claro */
-  min-height: 100vh;
-  color: #4a5568; /* Texto principal gris oscuro mate */
+  padding: 20px;
+  background-color: #f8f9fa; /* Un gris muy claro, casi blanco, para el contenedor principal */
+  min-height: calc(100vh - 4rem); /* Ajuste para el padding del root */
+  color: #34495e; /* Texto principal gris oscuro */
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra más pronunciada pero suave */
+  flex-grow: 1; /* Permite que el contenido crezca y empuje el fondo */
 }
 
 h1 {
-  color: #2d3748; /* Títulos más oscuros mate */
-  margin-bottom: 20px;
-  font-size: 2em;
-  font-weight: 600;
+  color: #007bff; /* Un azul más vibrante para el título principal */
+  margin-bottom: 25px;
+  font-size: 2.5em;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 h2 {
-  color: #718096; /* Subtítulos gris mate */
-  margin-top: 25px;
-  margin-bottom: 10px;
-  font-size: 1.4em;
-  font-weight: 500;
+  color: #0056b3; /* Un azul un poco más oscuro para los subtítulos */
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-size: 1.8em;
+  font-weight: 600;
 }
 
 form {
   background-color: #ffffff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03); /* Sombra aún más sutil */
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Sombra más definida */
   max-width: 900px;
-  margin: 20px auto;
+  margin: 25px auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Diseño más flexible */
+  gap: 20px;
+  border: 1px solid #e0e0e0; /* Borde sutil */
 }
 
 form div {
@@ -93,10 +112,10 @@ form label {
 form input[type="text"],
 form input[type="number"],
 form select {
-  padding: 8px;
-  border: 1px solid #e2e8f0; /* Borde gris claro mate */
-  border-radius: 4px;
-  font-size: 0.9em;
+  padding: 10px;
+  border: 1px solid #dcdcdc; /* Borde gris más neutro */
+  border-radius: 6px;
+  font-size: 1em;
   width: 100%;
   box-sizing: border-box;
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -105,28 +124,29 @@ form select {
 form input[type="text"]:focus,
 form input[type="number"]:focus,
 form select:focus {
-  border-color: #9f7aea; /* Púrpura suave para enfoque */
+  border-color: #667eea; /* Púrpura suave para enfoque */
   outline: none;
-  box-shadow: 0 0 0 0.1rem rgba(159, 122, 234, 0.2); /* Sombra de enfoque púrpura suave */
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25); /* Sombra de enfoque más intensa */
 }
 
 form button {
-  background-color: #667eea; /* Azul mate para el botón */
+  background-color: #007bff; /* Azul vibrante para el botón */
   color: white;
-  padding: 8px 15px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 4px;
-  font-size: 0.95em;
+  border-radius: 6px;
+  font-size: 1.05em;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
-  margin-top: 12px;
+  margin-top: 15px;
   font-weight: 600;
   grid-column: 1 / -1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 form button:hover {
-  background-color: #5a67d8; /* Azul mate más oscuro para hover */
-  transform: translateY(-1px);
+  background-color: #0056b3; /* Azul más oscuro para hover */
+  transform: translateY(-2px);
 }
 
 form button:active {
@@ -142,36 +162,38 @@ ul {
 
 li {
   background-color: #ffffff;
-  border: 1px solid #e2e8f0; /* Borde gris claro mate */
-  margin-bottom: 8px;
-  padding: 12px;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02); /* Sombra de lista aún más sutil */
+  border: 1px solid #e0e0e0; /* Borde gris más neutro */
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04); /* Sombra de lista más definida */
   text-align: left;
-  color: #4a5568; /* Texto de lista gris oscuro mate */
-  transition: transform 0.2s ease-in-out;
+  color: #34495e; /* Texto de lista gris oscuro */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 li:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); /* Sombra de hover de lista más sutil */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Sombra de hover de lista más pronunciada */
 }
 
 .toggle-form-button {
-  background-color: #4299e1; /* Azul mate para el botón de alternar */
+  background-color: #28a745; /* Un verde vibrante para el botón de alternar */
   color: white;
-  padding: 10px 20px;
+  padding: 12px 22px;
   border: none;
-  border-radius: 5px;
-  font-size: 1em;
+  border-radius: 6px;
+  font-size: 1.05em;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  margin-right: 15px; /* Ajuste de margen */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .toggle-form-button:hover {
-  background-color: #3182ce; /* Azul mate más oscuro para hover */
-  transform: translateY(-1px);
+  background-color: #218838; /* Verde más oscuro para hover */
+  transform: translateY(-2px);
 }
 
 .lenses-table-container {
@@ -193,17 +215,18 @@ table {
 
 table th,
 table td {
-  padding: 12px 15px;
+  padding: 14px 18px;
   text-align: left;
-  border-bottom: 1px solid #e2e8f0; /* Separador sutil */
+  border-bottom: 1px solid #e0e0e0; /* Separador más neutro */
 }
 
 table th {
-  background-color: #f8faff; /* Fondo ligeramente diferente para encabezados */
-  color: #4a5568;
-  font-weight: 600;
+  background-color: #f5f7fa; /* Fondo ligeramente diferente para encabezados */
+  color: #34495e;
+  font-weight: 700;
   text-transform: uppercase;
-  font-size: 0.85em;
+  font-size: 0.9em;
+  letter-spacing: 0.5px;
 }
 
 table tbody tr:last-child td {
@@ -211,7 +234,7 @@ table tbody tr:last-child td {
 }
 
 table tbody tr:hover {
-  background-color: #f0f4f8; /* Resaltado suave al pasar el ratón */
+  background-color: #f8f9fa; /* Resaltado suave al pasar el ratón */
 }
 
 table td {
@@ -252,4 +275,90 @@ table td {
     font-weight: 600;
     color: #718096;
   }
+}
+
+.marca-form-container {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Sombra más definida */
+  max-width: 400px;
+  margin: 25px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border: 1px solid #e0e0e0;
+}
+
+.marca-form-container input[type="text"] {
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  font-size: 1em;
+  transition: all 0.2s ease-in-out;
+}
+
+.marca-form-container input[type="text"]:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
+  outline: none;
+}
+
+.marca-form-container button {
+  background-color: #007bff; /* Azul vibrante para el botón */
+  color: white;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.05em;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.marca-form-container button:hover {
+  background-color: #0056b3; /* Azul más oscuro para hover */
+  transform: translateY(-2px);
+}
+
+.marca-form-container button:active {
+  transform: translateY(0);
+}
+
+.filters-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px; /* Increased gap for better spacing */
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-container label {
+  font-weight: bold;
+  color: #333;
+}
+
+.filter-container input {
+  padding: 10px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px; /* Limita el ancho para que no sea demasiado grande */
+}
+
+.filter-container input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
 }
