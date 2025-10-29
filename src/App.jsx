@@ -13,8 +13,10 @@ function App() {
     numero_de_lote: '',
     estado: 'En inventario',
     codigo_identificacion: '',
+    existencias: 0, // Nuevo campo para existencias
   });
   const [showForm, setShowForm] = useState(false);
+  const [editingLensId, setEditingLensId] = useState(null); // Nuevo estado para el ID del lente en edición
 
   useEffect(() => {
     getLenses();
@@ -22,7 +24,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (showForm) {
+    if (showForm && !editingLensId) {
       const initialNewLensState = {
         modelo: '',
         marca_id: '',
@@ -31,11 +33,12 @@ function App() {
         numero_de_lote: '',
         estado: 'En inventario',
         codigo_identificacion: '',
+        existencias: 0, // Nuevo campo para existencias
       };
       setNewLens(initialNewLensState);
       console.log('Formulario abierto, newLens reiniciado a:', initialNewLensState); // DEBUG
     }
-  }, [showForm]);
+  }, [showForm, editingLensId]);
 
   // console.log('Marcas:', marcas); // Para depurar el problema de las marcas
 
@@ -61,41 +64,61 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Excluir precio_final al insertar, ya que es una columna generada en Supabase
-    const { precio_final, ...lensToInsert } = newLens;
-
-    const { data, error } = await supabase.from('lentes').insert([lensToInsert]);
-
-    if (error) {
-      console.error('Error al añadir lente:', error);
+    if (editingLensId) {
+      await handleUpdate();
     } else {
-      setNewLens({
-        modelo: '',
-        marca_id: '',
-        precio: '',
-        descuento: '',
-        numero_de_lote: '',
-        estado: 'En inventario',
-        codigo_identificacion: '',
-      });
-      getLenses();
-      setShowForm(false);
+      // Excluir precio_final al insertar, ya que es una columna generada en Supabase
+      const { precio_final, ...lensToInsert } = newLens;
+
+      const { data, error } = await supabase.from('lentes').insert([lensToInsert]);
+
+      if (error) {
+        console.error('Error al añadir lente:', error);
+      } else {
+        setNewLens({
+          modelo: '',
+          marca_id: '',
+          precio: '',
+          descuento: '',
+          numero_de_lote: '',
+          estado: 'En inventario',
+          codigo_identificacion: '',
+          existencias: 0, // Reiniciar existencias también
+        });
+        getLenses();
+        setShowForm(false);
+      }
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewLens((prev) => {
-      let updatedValue = value;
-      const updatedLens = { ...prev, [name]: updatedValue };
-      if (name === 'precio' || name === 'descuento') {
-        updatedLens.precio_final = calculatePrecioFinal(
-          updatedLens.precio,
-          updatedLens.descuento
-        );
-      }
-      return updatedLens;
-    });
+    setNewLens((prev) => ({
+      ...prev,
+      [name]: name === 'precio' || name === 'descuento' || name === 'existencias' ? parseFloat(value) : value,
+    }));
+  };
+
+  const handleEditClick = (lens) => {
+    setEditingLensId(lens.id);
+    setNewLens(lens);
+    setShowForm(true);
+  };
+
+  const handleUpdate = async () => {
+    const { precio_final, ...lensToUpdate } = newLens;
+    const { error } = await supabase
+      .from('lentes')
+      .update(lensToUpdate)
+      .eq('id', editingLensId);
+
+    if (error) {
+      console.error('Error al actualizar lente:', error);
+    } else {
+      getLenses();
+      setShowForm(false);
+      setEditingLensId(null);
+    }
   };
 
   const calculatePrecioFinal = (precio, descuento) => {
@@ -118,7 +141,7 @@ function App() {
 
       {showForm && ( // Renderizado condicional del formulario
         <form onSubmit={handleSubmit}>
-          <h2>Añadir Nuevo Lente</h2>
+          <h2>{editingLensId ? 'Editar Lente' : 'Añadir Nuevo Lente'}</h2>
           <div>
             <label>Modelo:</label>
             <input
@@ -175,6 +198,16 @@ function App() {
             />
           </div>
           <div>
+            <label>Existencias:</label>
+            <input
+              type="number"
+              name="existencias"
+              value={newLens.existencias}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div>
             <label>Estado:</label>
             <select
               name="estado"
@@ -205,7 +238,7 @@ function App() {
               readOnly
             />
           </div>
-          <button type="submit">Añadir Lente</button>
+          <button type="submit">{editingLensId ? 'Actualizar Lente' : 'Añadir Lente'}</button>
         </form>
       )}
 
@@ -223,6 +256,7 @@ function App() {
               <th>Número de Lote</th>
               <th>Estado</th>
               <th>Código Identificación</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -237,6 +271,10 @@ function App() {
                 <td data-label="Número de Lote">{lens.numero_de_lote}</td>
                 <td data-label="Estado">{lens.estado}</td>
                 <td data-label="Código Identificación">{lens.codigo_identificacion}</td>
+                <td>
+                  <button onClick={() => handleDelete(lens.id)}>Eliminar</button>
+                  <button onClick={() => handleEditClick(lens)}>Editar</button>
+                </td>
               </tr>
             ))}
           </tbody>
