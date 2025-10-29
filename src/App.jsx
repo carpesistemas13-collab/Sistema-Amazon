@@ -12,7 +12,6 @@ function App() {
     descuento: '',
     numero_de_lote: '',
     estado: 'En inventario',
-    precio_final: 0,
     codigo_identificacion: '',
   });
   const [showForm, setShowForm] = useState(false);
@@ -68,7 +67,9 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { data, error } = await supabase.from('lentes').insert([newLens]);
+    const { precio_final, ...lensToInsert } = newLens;
+
+    const { data, error } = await supabase.from('lentes').insert([lensToInsert]);
 
     if (error) {
       console.error('Error al añadir lente:', error);
@@ -80,7 +81,6 @@ function App() {
         descuento: '',
         numero_de_lote: '',
         estado: 'En inventario',
-        precio_final: 0,
         codigo_identificacion: '',
       });
       getLenses();
@@ -174,6 +174,15 @@ function App() {
               value={newLens.codigo_identificacion}
               onChange={handleInputChange}
               required
+            />
+          </div>
+          <div>
+            <label>Precio Final:</label>
+            <input
+              type="text"
+              name="precio_final"
+              value={((parseFloat(newLens.precio) || 0) * (1 - (parseFloat(newLens.descuento) || 0) / 100)).toFixed(2)}
+              readOnly
             />
           </div>
           <button type="submit">Añadir Lente</button>
