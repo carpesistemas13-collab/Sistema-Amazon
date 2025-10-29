@@ -242,6 +242,13 @@ table td {
   font-size: 0.9em;
 }
 
+table td:last-child {
+  display: flex;
+  gap: 10px; /* Espacio entre los botones */
+  justify-content: center; /* Centra los botones horizontalmente */
+  align-items: center; /* Centra los botones verticalmente */
+}
+
 /* Estilos para hacer la tabla responsiva en pantallas pequeñas */
 @media (max-width: 768px) {
   table thead {
@@ -251,13 +258,6 @@ table td {
   table, table tbody, table tr, table td {
     display: block;
     width: 100%;
-  }
-
-  table tr {
-    margin-bottom: 15px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
   }
 
   table td {
@@ -274,6 +274,13 @@ table td {
     text-align: left;
     font-weight: 600;
     color: #718096;
+  }
+
+  table td:last-child {
+    display: flex; /* Asegura que la celda de botones sea flex incluso en móvil */
+    justify-content: flex-end; /* Alinea los botones a la derecha en vista móvil */
+    padding-left: 15px; /* Ajusta el padding para que no se superponga con el before */
+    gap: 10px; /* Mantiene el espacio entre los botones */
   }
 }
 
@@ -329,7 +336,7 @@ table td {
 .filters-wrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 40px; /* Increased gap for better spacing */
+  gap: 50px; /* Increased gap for better spacing */
   margin-bottom: 20px;
   justify-content: center;
   align-items: flex-end;
@@ -362,3 +369,49 @@ table td {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   outline: none;
 }
+
+table td button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.85em;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+  margin: 0; /* Eliminado el margen individual, ahora el gap del padre lo maneja */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 80px; /* Asegura un tamaño mínimo para ambos botones */
+  display: inline-flex; /* Para alinear contenido y futuros iconos */
+  align-items: center;
+  justify-content: center;
+}
+
+table td button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+table td button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table td button:first-of-type { /* Estilo para el botón Eliminar */
+  background-color: #dc3545; /* Rojo para eliminar */
+  color: white;
+}
+
+table td button:first-of-type:hover {
+  background-color: #c82333;
+}
+
+table td button:last-of-type { /* Estilo para el botón Editar */
+  background-color: #007bff; /* Azul para editar */
+  color: white;
+}
+
+table td button:last-of-type:hover {
+  background-color: #0056b3;
+}
+
+
