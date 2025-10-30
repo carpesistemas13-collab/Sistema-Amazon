@@ -3,6 +3,8 @@ import { supabase } from './supabaseClient';
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable'; // Importar autoTable directamente
 
 
 function App() {
@@ -26,9 +28,12 @@ function App() {
   const [editingLensId, setEditingLensId] = useState(null); // Nuevo estado para el ID del lente en edición
   const [filterLotNumber, setFilterLotNumber] = useState(''); // Nuevo estado para el filtro de número de lote
   const [filterModel, setFilterModel] = useState(''); // Nuevo estado para el filtro de modelo
+  const [reportLotNumber, setReportLotNumber] = useState(''); // Nuevo estado para el número de lote del reporte
   const [notification, setNotification] = useState(null); // { message: '', type: 'success' | 'error' }
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [lensToDeleteId, setLensToDeleteId] = useState(null);
+  const [showReportModal, setShowReportModal] = useState(false); // Estado para controlar la visibilidad del modal de reporte
+  const [lotNumberForReport, setLotNumberForReport] = useState(''); // Estado para el número de lote a reportar
 
   const showNotification = (message, type) => {
     setNotification({ message, type });
@@ -199,6 +204,86 @@ function App() {
     setFilterLotNumber('');
   };
 
+  const generatePdfReport = async () => {
+    setShowReportModal(true); // Abre el modal en lugar de generar el reporte directamente
+  };
+
+  const handleGenerateReportFromModal = async () => {
+    if (!lotNumberForReport) {
+      showNotification('Por favor, introduce un número de lote para generar el reporte.', 'error');
+      return;
+    }
+
+    showNotification(`Generando reporte para el lote: ${lotNumberForReport}`, 'success');
+
+    const { data: lensesData, error } = await supabase
+      .from('lentes')
+      .select('*')
+      .eq('numero_de_lote', lotNumberForReport);
+
+    if (error) {
+      console.error('Error al obtener lentes para el reporte:', error);
+      showNotification('Error al obtener lentes para el reporte.', 'error');
+      return;
+    }
+
+    if (lensesData.length === 0) {
+      showNotification(`No se encontraron lentes para el número de lote: ${lotNumberForReport}`, 'error');
+      return;
+    }
+
+    const doc = new jsPDF();
+
+    // Título del reporte
+    doc.setFontSize(18);
+    doc.text(`Reporte de Lentes - Lote: ${lotNumberForReport}`, 14, 22);
+
+    // Preparar los datos para autoTable
+    const tableColumn = [
+      "Modelo",
+      "Marca",
+      "Precio",
+      "Descuento",
+      "Precio Final",
+      "Existencias",
+      "Estado",
+      "Código Identificación",
+    ];
+
+    const tableRows = lensesData.map((lens) => [
+      lens.modelo,
+      marcas.find((m) => m.id === lens.marca_id)?.nombre || 'N/A',
+      `$${lens.precio.toFixed(2)}`,
+      `${lens.descuento}%`,
+      `$${lens.precio_final.toFixed(2)}`,
+      lens.existencias,
+      lens.estado,
+      lens.codigo_identificacion,
+    ]);
+
+    // Generar la tabla con autoTable
+    autoTable(doc, { // Llamar autoTable como función, pasando el doc
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+      headStyles: { fillColor: [22, 160, 133] }, // Estilo para el encabezado de la tabla
+      bodyStyles: { textColor: [50, 50, 50] },
+      theme: 'striped', // Tema de la tabla
+      margin: { top: 10 },
+      didDrawPage: function (data) {
+        // Footer
+        let str = 'Página ' + doc.internal.getNumberOfPages();
+        doc.setFontSize(10);
+        doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 10);
+      },
+    });
+
+    doc.save(`reporte_lote_${lotNumberForReport}.pdf`);
+    showNotification('Reporte PDF generado exitosamente.', 'success');
+    setShowReportModal(false); // Cierra el modal después de generar el reporte
+    setLotNumberForReport(''); // Limpia el campo del número de lote
+  };
+
   const handleAddMarca = async () => {
     if (!newMarca.trim()) {
       alert('El nombre de la marca no puede estar vacío.');
@@ -239,6 +324,25 @@ function App() {
             <div className="confirm-modal-buttons">
               <button onClick={confirmDelete} className="confirm-button">Confirmar</button>
               <button onClick={cancelDelete} className="cancel-button">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showReportModal && (
+        <div className="report-modal-overlay">
+          <div className="report-modal">
+            <h2>Generar Reporte PDF</h2>
+            <p>Introduce el número de lote para el reporte:</p>
+            <input
+              type="text"
+              value={lotNumberForReport}
+              onChange={(e) => setLotNumberForReport(e.target.value)}
+              placeholder="Número de Lote"
+            />
+            <div className="report-modal-buttons">
+              <button onClick={handleGenerateReportFromModal} className="confirm-button">Generar</button>
+              <button onClick={() => setShowReportModal(false)} className="cancel-button">Cancelar</button>
             </div>
           </div>
         </div>
@@ -394,6 +498,11 @@ function App() {
         </div>
         <button onClick={clearFilters} className="clear-filters-button">Limpiar Filtros</button>
       </div>
+
+      <div className="report-section">
+          <button onClick={generatePdfReport} className="generate-report-button">Generar Reporte PDF</button>
+        </div>
+
       <div className="lenses-table-container">
         <table>
           <thead>
