@@ -193,6 +193,11 @@ function App() {
     setShowConfirmModal(false);
   };
 
+  const clearFilters = () => {
+    setFilterModel('');
+    setFilterLotNumber('');
+  };
+
   const handleAddMarca = async () => {
     if (!newMarca.trim()) {
       alert('El nombre de la marca no puede estar vacío.');
@@ -386,6 +391,7 @@ function App() {
             placeholder="Introduce modelo"
           />
         </div>
+        <button onClick={clearFilters} className="clear-filters-button">Limpiar Filtros</button>
       </div>
       <div className="lenses-table-container">
         <table>
