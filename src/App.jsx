@@ -3,7 +3,7 @@ import { supabase } from './supabaseClient';
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { SpeedInsights } from "@vercel/speed-insights/next"
+
 
 function App() {
   const [lenses, setLenses] = useState([]);
