@@ -105,7 +105,7 @@ function App() {
       await handleUpdate();
     } else {
       // Validación de campos obligatorios
-      if (!newLens.numero_de_lote || !newLens.modelo || !newLens.precio || !newLens.existencias || !newLens.codigo_identificacion) {
+      if (!newLens.numero_de_lote || !newLens.modelo || isNaN(newLens.precio) || isNaN(newLens.existencias) || !newLens.codigo_identificacion) {
         showNotification('Por favor, completa todos los campos obligatorios.', 'error');
         return;
       }
@@ -151,7 +151,7 @@ function App() {
 
   const handleUpdate = async () => {
     // Validación de campos obligatorios
-    if (!newLens.numero_de_lote || !newLens.modelo || !newLens.precio || !newLens.existencias || !newLens.codigo_identificacion) {
+    if (!newLens.numero_de_lote || !newLens.modelo || isNaN(newLens.precio) || isNaN(newLens.existencias) || !newLens.codigo_identificacion) {
       showNotification('Por favor, completa todos los campos obligatorios.', 'error');
       return;
     }
