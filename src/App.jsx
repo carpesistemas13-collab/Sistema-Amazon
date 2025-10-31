@@ -59,7 +59,7 @@ function App() {
         precio: '',
         descuento: '',
         numero_de_lote: '',
-        estado: 'En inventario',
+        estado: '', // Eliminado el valor por defecto 'En inventario'
         codigo_identificacion: '',
         existencias: 0, // Nuevo campo para existencias
       };
