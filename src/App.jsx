@@ -253,15 +253,14 @@ function App() {
     const tableRows = lensesData.map((lens) => [
       lens.modelo,
       marcas.find((m) => m.id === lens.marca_id)?.nombre || 'N/A',
-      `$${lens.precio.toFixed(2)}`,
-      `${lens.descuento}%`,
-      `$${lens.precio_final.toFixed(2)}`,
+      `$${(parseFloat(lens.precio) || 0).toFixed(2)}`,
+      `$${(parseFloat(lens.precio_final) || 0).toFixed(2)}`,
       lens.existencias,
       lens.estado,
       lens.codigo_identificacion,
-    ]);
+      lens.fecha_creacion
+    ])
 
-    
     autoTable(doc, { // Llamar autoTable como función, pasando el doc
       head: [tableColumn],
       body: tableRows,
@@ -525,9 +524,9 @@ function App() {
               <tr key={lens.id}>
                 <td data-label="Modelo">{lens.modelo}</td>
                 <td data-label="Marca">{marcas.find((m) => m.id === lens.marca_id)?.nombre || 'N/A'}</td>
-                <td data-label="Precio">${lens.precio.toFixed(2)}</td>
+                <td data-label="Precio">${(parseFloat(lens.precio) || 0).toFixed(2)}</td>
                 <td data-label="Descuento">{lens.descuento}%</td>
-                <td data-label="Precio Final">${lens.precio_final.toFixed(2)}</td>
+                <td data-label="Precio Final">${(parseFloat(lens.precio_final) || 0).toFixed(2)}</td>
                 <td data-label="Existencias">{lens.existencias}</td>
                 <td data-label="Número de Lote">{lens.numero_de_lote}</td>
                 <td data-label="Estado">{lens.estado}</td>
