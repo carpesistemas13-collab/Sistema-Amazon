@@ -109,7 +109,7 @@ function App() {
         showNotification('Por favor, completa todos los campos obligatorios.', 'error');
         return;
       }
-      // Excluir precio_final al insertar, ya que es una columna generada en Supabase
+      // Excluir precio_final columna auto generada por supabase
       const { precio_final, ...lensToInsert } = newLens;
 
       const { data, error } = await supabase.from('lentes').insert([lensToInsert]);
@@ -205,7 +205,7 @@ function App() {
   };
 
   const generatePdfReport = async () => {
-    setShowReportModal(true); // Abre el modal en lugar de generar el reporte directamente
+    setShowReportModal(true);
   };
 
   const handleGenerateReportFromModal = async () => {
@@ -261,14 +261,14 @@ function App() {
       lens.codigo_identificacion,
     ]);
 
-    // Generar la tabla con autoTable
+    
     autoTable(doc, { // Llamar autoTable como función, pasando el doc
       head: [tableColumn],
       body: tableRows,
       startY: 30,
-      headStyles: { fillColor: [22, 160, 133] }, // Estilo para el encabezado de la tabla
+      headStyles: { fillColor: [22, 160, 133] }, 
       bodyStyles: { textColor: [50, 50, 50] },
-      theme: 'striped', // Tema de la tabla
+      theme: 'striped', 
       margin: { top: 10 },
       didDrawPage: function (data) {
         // Footer
@@ -449,6 +449,7 @@ function App() {
               <option value="En inventario">En inventario</option>
               <option value="Publicado">Publicado</option>
               <option value="Vendido">Vendido</option>
+              <option value="Baja">Baja</option>
             </select>
           </div>
           <div> {/* Nuevo campo para codigo_identificacion */}
