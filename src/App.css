@@ -664,4 +664,438 @@ table td button:last-of-type:hover {
   transform: translateY(-2px);
 }
 
+.total-lenses-count {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.count-highlight {
+  background-color: #e0f7fa; /* Un color de fondo suave para resaltar */
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #00796b; /* Un color de texto que contraste bien */
+}
+
+/* Estilos para el contenedor de filtros */
+.filters-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px; /* Increased gap for better spacing */
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-container label {
+  font-weight: bold;
+  color: #333;
+}
+
+.filter-container input {
+  padding: 10px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px; /* Limita el ancho para que no sea demasiado grande */
+}
+
+.filter-container input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+table td button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.85em;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+  margin: 0; /* Eliminado el margen individual, ahora el gap del padre lo maneja */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 80px; /* Asegura un tamaño mínimo para ambos botones */
+  display: inline-flex; /* Para alinear contenido y futuros iconos */
+  align-items: center;
+  justify-content: center;
+}
+
+table td button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+table td button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table td button:first-of-type { /* Estilo para el botón Eliminar */
+  background-color: #dc3545; /* Rojo para eliminar */
+  color: white;
+}
+
+table td button:first-of-type:hover {
+  background-color: #c82333;
+}
+
+table td button:last-of-type { /* Estilo para el botón Editar */
+  background-color: #007bff; /* Azul para editar */
+  color: white;
+}
+
+table td button:last-of-type:hover {
+  background-color: #0056b3;
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeInOut 3s forwards;
+}
+
+.notification.success {
+  background-color: #4CAF50; /* Green */
+}
+
+.notification.error {
+  background-color: #f44336; /* Red */
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-20px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+/* Estilos para el modal de confirmación */
+.confirm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirm-modal {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.confirm-modal h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.8em;
+  margin-bottom: 15px;
+}
+
+.confirm-modal p {
+  margin-bottom: 25px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.confirm-modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.confirm-modal-buttons button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.confirm-modal-buttons .confirm-button {
+  background-color: #dc3545; /* Rojo para eliminar */
+  color: white;
+}
+
+.confirm-modal-buttons .confirm-button:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+.confirm-modal-buttons .cancel-button {
+  background-color: #6c757d; /* Gris para cancelar */
+  color: white;
+}
+
+.confirm-modal-buttons .cancel-button:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+.clear-filters-button {
+  background-color: #6c757d; /* Gris para el botón de limpiar */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px; /* Espacio superior para separarlo de los filtros */
+}
+
+.clear-filters-button:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Estilos para el modal de reporte */
+.report-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.report-modal {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.report-modal h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.8em;
+  margin-bottom: 15px;
+}
+
+.report-modal p {
+  margin-bottom: 15px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.report-modal input[type="text"] {
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  font-size: 1em;
+  width: calc(100% - 22px); /* Ajuste para padding y borde */
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.report-modal input[type="text"]:focus {
+  border-color: #667eea;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
+}
+
+.report-modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.report-modal-buttons button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.report-modal-buttons .confirm-button {
+  background-color: #28a745; /* Verde para generar */
+  color: white;
+}
+
+.report-modal-buttons .confirm-button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.report-modal-buttons .cancel-button {
+  background-color: #6c757d; /* Gris para cancelar */
+  color: white;
+}
+
+.report-modal-buttons .cancel-button:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+.total-lenses-count {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.count-highlight {
+  background-color: #e0f7fa; /* Un color de fondo suave para resaltar */
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #00796b; /* Un color de texto que contraste bien */
+}
+
+/* Estilos para el contenedor de filtros */
+.filters-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px; /* Increased gap for better spacing */
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-container label {
+  font-weight: bold;
+  color: #333;
+}
+
+.filter-container input {
+  padding: 10px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px; /* Limita el ancho para que no sea demasiado grande */
+}
+
+.filter-container input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+table td button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.85em;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+  margin: 0; /* Eliminado el margen individual, ahora el gap del padre lo maneja */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 80px; /* Asegura un tamaño mínimo para ambos botones */
+  display: inline-flex; /* Para alinear contenido y futuros iconos */
+  align-items: center;
+  justify-content: center;
+}
+
+table td button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+table td button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table td button:first-of-type { /* Estilo para el botón Eliminar */
+  background-color: #dc3545; /* Rojo para eliminar */
+  color: white;
+}
+
+table td button:first-of-type:hover {
+  background-color: #c82333;
+}
+
+table td button:last-of-type { /* Estilo para el botón Editar */
+  background-color: #007bff; /* Azul para editar */
+  color: white;
+}
+
+table td button:last-of-type:hover {
+  background-color: #0056b3;
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeInOut 3s forwards;
+}
+
+.notification.success {
+  background-color: #4CAF50; /* Green */
+}
+
+.notification.error {
+  background-color: #f44336; /* Red */
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-20px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
 

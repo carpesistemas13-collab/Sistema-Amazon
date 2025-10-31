@@ -34,6 +34,7 @@ function App() {
   const [lensToDeleteId, setLensToDeleteId] = useState(null);
   const [showReportModal, setShowReportModal] = useState(false); // Estado para controlar la visibilidad del modal de reporte
   const [lotNumberForReport, setLotNumberForReport] = useState(''); // Estado para el número de lote a reportar
+  const [totalLensesCount, setTotalLensesCount] = useState(0); // Nuevo estado para el conteo total de lentes
 
   const showNotification = (message, type) => {
     setNotification({ message, type });
@@ -45,6 +46,7 @@ function App() {
   useEffect(() => {
     getLenses();
     getMarcas();
+    getTotalLensesCount(); // Llamar a la nueva función para obtener el conteo total
   }, []);
 
   useEffect(() => {
@@ -95,6 +97,18 @@ function App() {
       console.error('Error fetching brands:', error);
     } else {
       setMarcas(data);
+    }
+  };
+
+  const getTotalLensesCount = async () => {
+    const { count, error } = await supabase
+      .from('lentes')
+      .select('count', { count: 'exact' });
+
+    if (error) {
+      console.error('Error fetching total lenses count:', error);
+    } else {
+      setTotalLensesCount(count);
     }
   };
 
@@ -254,12 +268,12 @@ function App() {
       lens.modelo,
       marcas.find((m) => m.id === lens.marca_id)?.nombre || 'N/A',
       `$${(parseFloat(lens.precio) || 0).toFixed(2)}`,
+      `${lens.descuento}%`,
       `$${(parseFloat(lens.precio_final) || 0).toFixed(2)}`,
       lens.existencias,
       lens.estado,
       lens.codigo_identificacion,
-      lens.fecha_creacion
-    ])
+    ]);
 
     autoTable(doc, { // Llamar autoTable como función, pasando el doc
       head: [tableColumn],
@@ -475,6 +489,7 @@ function App() {
       )}
 
       <h2>Lentes Disponibles</h2>
+      <p className="total-lenses-count">Total de lentes registrados: <span className="count-highlight">{totalLensesCount}</span></p>
       <div className="filters-wrapper">
         <div className="filter-container">
           <label htmlFor="lotFilter">Filtrar por Número de Lote:</label>
