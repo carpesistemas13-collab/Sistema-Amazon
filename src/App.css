@@ -242,6 +242,7 @@ li:hover {
 
 table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   margin: 0;
   background-color: #ffffff;
