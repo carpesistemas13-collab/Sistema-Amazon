@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable'; // Importar autoTable directamente
 
@@ -515,7 +515,7 @@ function App() {
       </div>
 
       <div className="report-section">
-          <button onClick={generatePdfReport} className="generate-report-button">Generar Reporte PDF</button>
+          <button onClick={generatePdfReport} className="generate-report-button"><FontAwesomeIcon icon={faFilePdf} /> Generar Reporte PDF</button>
         </div>
 
       <div className="lenses-table-container">
