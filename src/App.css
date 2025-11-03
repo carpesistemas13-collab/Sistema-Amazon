@@ -233,7 +233,7 @@ li:hover {
 }
 
 .lenses-table-container {
-  max-width: 100%;
+  max-width: 1500px;
   overflow-x: auto;
   margin: 20px auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
@@ -254,6 +254,13 @@ table td {
   padding: 14px 18px;
   text-align: left;
   border-bottom: 1px solid #e0e0e0; /* Separador más neutro */
+}
+
+table th:last-child,
+table td:last-child {
+  width: 180px;
+  min-width: 180px;
+  text-align: center;
 }
 
 table th {
