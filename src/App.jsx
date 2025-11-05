@@ -28,6 +28,7 @@ function App() {
   const [editingLensId, setEditingLensId] = useState(null); // Nuevo estado para el ID del lente en edición
   const [filterLotNumber, setFilterLotNumber] = useState(''); // Nuevo estado para el filtro de número de lote
   const [filterModel, setFilterModel] = useState(''); // Nuevo estado para el filtro de modelo
+  const [filterBrandId, setFilterBrandId] = useState(''); // Nuevo estado para el filtro de marca
   const [reportLotNumber, setReportLotNumber] = useState(''); // Nuevo estado para el número de lote del reporte
   const [notification, setNotification] = useState(null); // { message: '', type: 'success' | 'error' }
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -50,8 +51,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getLenses(filterLotNumber, filterModel);
-  }, [filterLotNumber, filterModel]);
+    getLenses(filterLotNumber, filterModel, filterBrandId);
+  }, [filterLotNumber, filterModel, filterBrandId]);
 
   useEffect(() => {
     if (showForm && !editingLensId) {
@@ -72,7 +73,7 @@ function App() {
 
   // console.log('Marcas:', marcas); // Para depurar el problema de las marcas
 
-  const getLenses = async (lotNumber = '', model = '') => {
+  const getLenses = async (lotNumber = '', model = '', brandId = '') => {
     let query = supabase.from('lentes').select('*');
 
     if (lotNumber) {
@@ -81,6 +82,10 @@ function App() {
 
     if (model) {
       query = query.ilike('modelo', `%${model}%`);
+    }
+
+    if (brandId) {
+      query = query.eq('marca_id', brandId);
     }
 
     const { data, error } = await query;
@@ -216,6 +221,7 @@ function App() {
   const clearFilters = () => {
     setFilterModel('');
     setFilterLotNumber('');
+    setFilterBrandId('');
   };
 
   const generatePdfReport = async () => {
@@ -510,6 +516,21 @@ function App() {
             onChange={(e) => setFilterModel(e.target.value)}
             placeholder="Introduce modelo"
           />
+        </div>
+        <div className="filter-container">
+          <label htmlFor="brandFilter">Filtrar por Marca:</label>
+          <select
+            id="brandFilter"
+            value={filterBrandId}
+            onChange={(e) => setFilterBrandId(e.target.value)}
+          >
+            <option value="">Todas las marcas</option>
+            {marcas.map((marca) => (
+              <option key={marca.id} value={marca.id}>
+                {marca.nombre}
+              </option>
+            ))}
+          </select>
         </div>
         <button onClick={clearFilters} className="clear-filters-button">Limpiar Filtros</button>
       </div>

@@ -397,20 +397,30 @@ table td:last-child {
   color: #333;
 }
 
-.filter-container input {
-  padding: 10px 15px;
-  border: 1px solid #ced4da;
-  border-radius: 8px;
-  font-size: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+.filter-container input,
+.filter-container select {
   width: 100%;
-  max-width: 300px; /* Limita el ancho para que no sea demasiado grande */
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1em;
+  color: #374151;
+  background-color: #ffffff;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  -webkit-appearance: none; /* Remove default browser styling for select */
+  -moz-appearance: none; /* Remove default browser styling for select */
+  appearance: none; /* Remove default browser styling for select */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%20viewBox%3D%220%200%20292.4%20292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%20197.9l-13.9-13.9c-3.7-3.7-9.8-3.7-13.5%200L146.2%20268.2%2032.8%20154.8c-3.7-3.7-9.8-3.7-13.5%200L5.4%20168.7c-3.7%203.7-3.7%209.8%200%2013.5l133.3%20133.3c3.7%203.7%209.8%203.7%2013.5%200l133.3-133.3c3.7-3.6%203.7-9.7%200-13.4z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
 }
 
-.filter-container input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+.filter-container input:focus,
+.filter-container select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
   outline: none;
 }
 
