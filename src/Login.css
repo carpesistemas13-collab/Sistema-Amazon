@@ -4,15 +4,15 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(to bottom right, #FF8C00, #054585); /* Degradado de naranja al nuevo azul, en diagonal */
+  background: #F8F8F8;
   font-family: 'Arial', sans-serif;
   padding: 20px;
   box-sizing: border-box;
 }
 
 .login-logo {
-  width: 150px;
-  margin-bottom: 25px; /* Un poco más de espacio */
+  width: 200px;
+  margin-bottom: 30px; /* Un poco más de espacio */
 }
 
 .login-container h2 {
@@ -25,7 +25,7 @@
   background-color: #ffffff; /* Fondo blanco para el formulario */
   padding: 45px;
   border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -40,6 +40,7 @@
   border-radius: 6px;
   font-size: 17px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
 }
 
 .login-input:focus {
