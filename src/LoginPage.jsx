@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { supabase } from './supabaseClient';
 import logo from './img/logo.png'; // Import the logo image
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import './Login.css'; // Import the new CSS file
 
 const LoginPage = () => {
   const [username, setUsername] = useState(''); // Changed from email to username
