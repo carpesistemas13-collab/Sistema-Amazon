@@ -8,6 +8,18 @@ body {
   font-family: 'Inter', sans-serif; /* Una fuente moderna */
 }
 
+.total-lenses-count,
+.total-merchandise-value {
+  font-size: 1.1em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.count-highlight {
+  font-weight: bold;
+  color: #007bff;
+}
+
 .status-baja {
   background-color: #ffcccc !important; /* Rojo claro para indicar 'Baja' */
   color: #cc0000 !important; /* Texto rojo oscuro */

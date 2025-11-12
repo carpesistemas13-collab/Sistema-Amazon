@@ -37,6 +37,7 @@ function App() {
   const [showReportModal, setShowReportModal] = useState(false); // Estado para controlar la visibilidad del modal de reporte
   const [lotNumberForReport, setLotNumberForReport] = useState(''); // Estado para el número de lote a reportar
   const [totalLensesCount, setTotalLensesCount] = useState(0); // Nuevo estado para el conteo total de lentes
+  const [totalMerchandiseValue, setTotalMerchandiseValue] = useState(0); // Nuevo estado para el valor total de la mercancía
 
   const showNotification = (message, type) => {
     setNotification({ message, type });
@@ -54,6 +55,11 @@ function App() {
   useEffect(() => {
     getLenses(filterLotNumber, filterModel, filterBrandId);
   }, [filterLotNumber, filterModel, filterBrandId]);
+
+  useEffect(() => {
+    const total = lenses.reduce((sum, lens) => sum + (parseFloat(lens.precio_final) || 0), 0);
+    setTotalMerchandiseValue(total);
+  }, [lenses]);
 
   useEffect(() => {
     if (showForm && !editingLensId) {
@@ -497,6 +503,7 @@ function App() {
 
       <h2>Lentes Disponibles</h2>
       <p className="total-lenses-count">Total de lentes registrados: <span className="count-highlight">{totalLensesCount}</span></p>
+      <p className="total-merchandise-value">Valor total de la mercancía: <span className="count-highlight">${totalMerchandiseValue.toFixed(2)}</span></p>
       <div className="filters-wrapper">
         <div className="filter-container">
           <label htmlFor="lotFilter">Filtrar por Número de Lote:</label>
