@@ -503,7 +503,7 @@ function App() {
 
       <h2>Lentes Disponibles</h2>
       <p className="total-lenses-count">Total de lentes registrados: <span className="count-highlight">{totalLensesCount}</span></p>
-      <p className="total-merchandise-value">Valor total de la mercancía: <span className="count-highlight">${totalMerchandiseValue.toFixed(2)}</span></p>
+      <p className="total-merchandise-value"><strong>Valor total de la mercancía</strong>: <span className="count-highlight">${totalMerchandiseValue.toFixed(2)}</span></p>
       <div className="filters-wrapper">
         <div className="filter-container">
           <label htmlFor="lotFilter">Filtrar por Número de Lote:</label>
