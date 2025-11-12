@@ -8,6 +8,12 @@ body {
   font-family: 'Inter', sans-serif; /* Una fuente moderna */
 }
 
+.status-baja {
+  background-color: #ffcccc !important; /* Rojo claro para indicar 'Baja' */
+  color: #cc0000 !important; /* Texto rojo oscuro */
+  font-weight: bold;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;

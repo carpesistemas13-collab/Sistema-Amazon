@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable'; // Importar autoTable directamente
+import LensesTable from './LensesTable'; // Importar el componente LensesTable
 
 
 function App() {
@@ -540,41 +541,12 @@ function App() {
         </div>
 
       <div className="lenses-table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Modelo</th>
-              <th>Marca</th>
-              <th>Precio</th>
-              <th>Descuento</th>
-              <th>Precio Final</th>
-              <th>Existencias</th>
-              <th>Número de Lote</th>
-              <th>Estado</th>
-              <th>Código Identificación</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lenses.map((lens) => (
-              <tr key={lens.id}>
-                <td data-label="Modelo">{lens.modelo}</td>
-                <td data-label="Marca">{marcas.find((m) => m.id === lens.marca_id)?.nombre || 'N/A'}</td>
-                <td data-label="Precio">${(parseFloat(lens.precio) || 0).toFixed(2)}</td>
-                <td data-label="Descuento">{lens.descuento}%</td>
-                <td data-label="Precio Final">${(parseFloat(lens.precio_final) || 0).toFixed(2)}</td>
-                <td data-label="Existencias">{lens.existencias}</td>
-                <td data-label="Número de Lote">{lens.numero_de_lote}</td>
-                <td data-label="Estado">{lens.estado}</td>
-                <td data-label="Código Identificación">{lens.codigo_identificacion}</td>
-                <td>
-                  <button onClick={() => handleDelete(lens.id)}><FontAwesomeIcon icon={faTrash} /> Eliminar</button>
-                  <button onClick={() => handleEditClick(lens)}><FontAwesomeIcon icon={faEdit} /> Editar</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <LensesTable
+          lenses={lenses}
+          marcas={marcas}
+          handleDelete={handleDelete}
+          handleEditClick={handleEditClick}
+        />
       </div>
     </div>
   );
