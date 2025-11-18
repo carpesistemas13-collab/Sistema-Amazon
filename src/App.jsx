@@ -259,11 +259,15 @@ function App() {
       return;
     }
 
+    const lotTotalMerchandiseValue = lensesData.reduce((sum, lens) => sum + (parseFloat(lens.precio_final) || 0), 0);
+
     const doc = new jsPDF();
 
     // Título del reporte
     doc.setFontSize(18);
     doc.text(`Reporte de Lentes - Lote: ${lotNumberForReport}`, 14, 22);
+    doc.setFontSize(12);
+    doc.text(`Valor total de la mercancía en este lote: $${lotTotalMerchandiseValue.toFixed(2)}`, 14, 30);
 
     // Preparar los datos para autoTable
     const tableColumn = [
@@ -291,11 +295,19 @@ function App() {
     autoTable(doc, { // Llamar autoTable como función, pasando el doc
       head: [tableColumn],
       body: tableRows,
-      startY: 30,
+      startY: 38, // Ajustar startY para dejar espacio para el nuevo texto
       headStyles: { fillColor: [22, 160, 133] }, 
       bodyStyles: { textColor: [50, 50, 50] },
       theme: 'striped', 
       margin: { top: 10 },
+      didParseCell: function (data) {
+        if (data.section === 'body' && data.column.dataKey === 6) { // Columna 'Estado'
+          if (data.cell.text[0] === 'Baja') {
+            data.cell.styles.textColor = [204, 0, 0]; // Rojo para 'Baja'
+            data.cell.styles.fontStyle = 'bold';
+          }
+        }
+      },
       didDrawPage: function (data) {
         // Footer
         let str = 'Página ' + doc.internal.getNumberOfPages();

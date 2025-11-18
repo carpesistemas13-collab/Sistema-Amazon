@@ -8,6 +8,14 @@ body {
   font-family: 'Inter', sans-serif; /* Una fuente moderna */
 }
 
+h1 {
+  color: #00008B; /* Azul oscuro para los títulos h1 */
+}
+
+h2 {
+  color: #00008B; /* Azul oscuro para los títulos h2 */
+}
+
 .total-lenses-count,
 .total-merchandise-value {
   font-size: 1.1em;
@@ -182,7 +190,7 @@ form button:hover {
 }
 
 .generate-report-button {
-  background-color: #28a745; /* Verde para el botón de generar reporte */
+  background-color: #ff9900; /* Naranja para el botón de generar reporte */
   color: white;
   padding: 8px 12px; /* Reducido de 10px 15px */
   border: none;
@@ -195,7 +203,7 @@ form button:hover {
 }
 
 .generate-report-button:hover {
-  background-color: #218838;
+  background-color: #cc7a00;
   transform: translateY(-2px);
 }
 
@@ -228,7 +236,7 @@ li:hover {
 }
 
 .toggle-form-button {
-  background-color: #28a745; /* Un verde vibrante para el botón de alternar */
+  background-color: #ff9900;
   color: white;
   padding: 12px 22px;
   border: none;
@@ -237,12 +245,12 @@ li:hover {
   cursor: pointer;
   transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
   margin-bottom: 25px;
-  margin-right: 15px; /* Ajuste de margen */
+  margin-right: 15px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .toggle-form-button:hover {
-  background-color: #218838; /* Verde más oscuro para hover */
+  background-color: #cc7a00;
   transform: translateY(-2px);
 }
 
@@ -583,12 +591,12 @@ table td button:last-of-type:hover {
 }
 
 .confirm-modal-buttons .cancel-button:hover {
-  background-color: #5a6268;
+  background-color: #c82333;
   transform: translateY(-2px);
 }
 
 .clear-filters-button {
-  background-color: #6c757d; /* Gris para el botón de limpiar */
+  background-color: #dc3545; /* Rojo para el botón de limpiar */
   color: white;
   padding: 10px 15px;
   border: none;
